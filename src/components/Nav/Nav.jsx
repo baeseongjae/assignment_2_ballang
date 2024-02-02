@@ -1,7 +1,89 @@
 import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 function Nav() {
-  return <div>Nav</div>;
+  return (
+    <StyledNav>
+      <NavInner>
+        <span>럭셔리하도다 그이름, 발랑</span>
+
+        <span>Online luxury boutique</span>
+
+        <MenuList>
+          <li>
+            <MenuItemLink>로그인</MenuItemLink>
+          </li>
+          <li>
+            <MenuItemLink>마이페이지</MenuItemLink>
+          </li>
+          <li>
+            <MenuItemLink>주문배송</MenuItemLink>
+          </li>
+          <li>
+            <MenuItemLastLink>고객센터</MenuItemLastLink>
+          </li>
+        </MenuList>
+      </NavInner>
+    </StyledNav>
+  );
 }
 
 export default Nav;
+
+// --------------- 스타일링 ------------------
+
+const StyledNav = styled.nav`
+  height: 1.75rem;
+  font-size: 14px;
+  background-color: black;
+  color: white;
+`;
+
+const MenuList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+
+  > li {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const NavInner = styled.div`
+  max-width: 75rem;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  > span,
+  ${MenuList} {
+    flex: 1;
+  }
+
+  > span {
+    &:nth-child(2) {
+      text-align: center;
+    }
+  }
+`;
+
+const MenuItemLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+  padding: 0 10px;
+  display: inline-block;
+  border-right: 1px solid white;
+`;
+
+const MenuItemLastLink = styled(MenuItemLink)`
+  border: none;
+`;
