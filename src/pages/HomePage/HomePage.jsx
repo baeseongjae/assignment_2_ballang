@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
-import Page from "../../components/Pages/Page";
 import api from "../../apis/api";
+import Page from "../../components/Pages/Page";
+import ProductsList from "../../components/ProductsList";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -15,21 +15,7 @@ function HomePage() {
 
   return (
     <Page>
-      <h2>상품리스트</h2>
-      <ul>
-        {products.map((product) => (
-          <li key={product.goodsno}>
-            <Link>
-              <img src={product.img_i} alt={product.goodsnm} />
-              <h3>{product.brandnm}</h3>
-              <p>{product.goodsnm}</p>
-              <p>
-                {product.price} <span>{product.sale_percent}</span>
-              </p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <ProductsList products={products} />
     </Page>
   );
 }
