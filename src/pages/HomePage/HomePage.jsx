@@ -20,13 +20,4 @@ function HomePage() {
   );
 }
 
-// const productsReceived = api.products.getProducts("products");
-// productsReceived.then(([productsReceived]) =>
-//   setProducts({ productsReceived })
-// );
-// useEffect(() => {
-//   const productsReceived = api.products.getProducts("products");
-//   setProducts({ productsReceived });
-// }, []);
-
 export default HomePage;
