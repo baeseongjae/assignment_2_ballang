@@ -23,9 +23,7 @@ const getProducts = async (type) => {
 };
 
 const getProduct = async (goodsNo) => {
-  const endpoints = {
-    product: `https://port-0-ballang-server-qrd2als49b8m4.sel5.cloudtype.app/products/${goodsNo}`,
-  };
+  const endpoints = `https://port-0-ballang-server-qrd2als49b8m4.sel5.cloudtype.app/products/${goodsNo}`;
 
   try {
     const response = await fetch(endpoints, options);

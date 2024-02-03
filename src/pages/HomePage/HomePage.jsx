@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import api from "../../apis/api";
-import Page from "../../components/Pages/Page";
+import Page from "../../components/Page";
 import ProductsList from "../../components/ProductsList";
 
 function HomePage() {

@@ -5,7 +5,7 @@ import styled from "styled-components";
 function ProductsListItem({ product }) {
   return (
     <li key={product.goodsno}>
-      <ProductsListItemLink>
+      <ProductsListItemLink to={`/products/${product.goodsno}`}>
         <img src={product.img_i} alt={product.goodsnm} />
         <h3>{product.brandnm}</h3>
         <GoodsName>{product.goodsnm}</GoodsName>
