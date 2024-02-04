@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { updateItemCountActionCreator } from "../../store/actions/cart.actions";
 
-function Counter({ product }) {
-  const [count, setCount] = useState(0);
+function Counter({ product, isDirectUpdate, count, setCount }) {
   const productsInCart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
@@ -16,17 +15,23 @@ function Counter({ product }) {
   const productCount =
     targetIndex !== -1 ? productsInCart[targetIndex].count : 0;
 
-  const handleClickPlusButton = () => {
-    const action = updateItemCountActionCreator(product, productCount + 1);
-    dispatch(action);
-    setCount(productCount + 1);
+  const standard = isDirectUpdate ? productCount : count;
+
+  // ★조건부로 적용하기 위한 카운트 업데이트 함수
+  const updateCountHandler = (newCount) => {
+    if (isDirectUpdate) {
+      const action = updateItemCountActionCreator(product, newCount);
+      dispatch(action);
+    } else {
+      setCount(newCount);
+    }
   };
 
+  const handleClickPlusButton = () => updateCountHandler(standard + 1);
+
   const handleClickMinusButton = () => {
-    if (count > 0) {
-      const action = updateItemCountActionCreator(product, productCount - 1);
-      dispatch(action);
-      setCount(productCount - 1);
+    if (standard > 0) {
+      updateCountHandler(standard - 1);
     }
   };
 
@@ -34,7 +39,7 @@ function Counter({ product }) {
     <CounterWrapper>
       <A11yHidden>카운터</A11yHidden>
       <MinusButton onClick={handleClickMinusButton}>-</MinusButton>
-      <div>{productCount}</div>
+      {isDirectUpdate ? <div>{productCount}</div> : <div>{count}</div>}
       <PlusButton onClick={handleClickPlusButton}>+</PlusButton>
     </CounterWrapper>
   );

@@ -28,7 +28,7 @@ function CartPage() {
                   <img src={item.img_i} alt={item.goodsnm} />
                   <p>{item.goodsnm}</p>
                 </Link>
-                <Counter product={item} />
+                <Counter product={item} isDirectUpdate={true} />
                 <Price amount={item.price * item.count} />
               </li>
             ))}

@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { IoBag } from "react-icons/io5";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import api from "../../apis/api";
 import Page from "../../components/Page";
 import Loading from "../../components/Loading";
 import Price from "../../components/Price";
+import Counter from "../../components/Counter";
 
+import { IoBag } from "react-icons/io5";
 import styled from "styled-components";
+import { useAuth } from "../../contexts/auth.context";
+import {
+  addItemActionCreator,
+  updateItemCountActionCreator,
+} from "../../store/actions/cart.actions";
 
 function ProductsDetailPage() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [count, setCount] = useState(0);
+  const { isLoggedIn } = useAuth();
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.products
@@ -27,6 +39,22 @@ function ProductsDetailPage() {
       });
   }, [productId]);
 
+  const handleClickAddCartButton = (e) => {
+    e.preventDefault();
+
+    if (isLoggedIn) {
+      dispatch(addItemActionCreator(product));
+      if (count >= 2) {
+        dispatch(updateItemCountActionCreator(product, count)); // dispatch로 action을 발생시킨다. (해당상품 카트에 추가.)
+      } else {
+      }
+      alert(`${product.goodsnm} 상품을 담았습니다.`);
+    } else {
+      alert("로그인 하셔야 댐니다!!!!!");
+      navigate("/sign-in");
+    }
+  };
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -37,7 +65,7 @@ function ProductsDetailPage() {
           <img src={product.img_i} alt={product.goodsnm} />
         </ProductImageWrapper>
         <ProductTextWrapper>
-          <form action="">
+          <form onSubmit={(e) => e.preventDefault()}>
             <header>
               <h3>{product.brandnm}</h3>
               <p>
@@ -89,7 +117,7 @@ function ProductsDetailPage() {
                 <span>옵션 선택</span>
                 <button>Size chart</button>
               </OptionSize>
-              <OptionSelect>
+              <OptionSelectWrapper>
                 <select name="" id="">
                   {product.option.map((option) => (
                     <option value={option.size}>
@@ -97,11 +125,18 @@ function ProductsDetailPage() {
                     </option>
                   ))}
                 </select>
-              </OptionSelect>
+                <Counter
+                  count={count}
+                  setCount={setCount}
+                  product={product}
+                  isDirectUpdate={false}
+                />
+              </OptionSelectWrapper>
               <ButtonWrapper>
                 <button>Buy Now</button>
-                <button>
+                <button onClick={handleClickAddCartButton}>
                   <IoBag />
+                  Add Cart
                 </button>
               </ButtonWrapper>
             </OptionAndBuyWrapper>
@@ -210,7 +245,10 @@ const OptionSize = styled.div`
   }
 `;
 
-const OptionSelect = styled.div`
+const OptionSelectWrapper = styled.div`
+  display: flex;
+  column-gap: 20px;
+
   select {
     width: 228px;
     height: 50px;
@@ -233,10 +271,11 @@ const ButtonWrapper = styled.div`
   }
 
   button:last-child {
-    font-size: 1.8rem;
-    width: 50px;
-    border-radius: 50%;
-    border: 1px solid rgb(173, 173, 173);
+    font-size: 1rem;
+    font-weight: 200px;
+    width: 150px;
+    border-radius: 25px;
+    border: 1px solid black;
   }
 
   button:hover {
@@ -246,6 +285,7 @@ const ButtonWrapper = styled.div`
     }
     &:last-child {
       color: rgb(130, 130, 130);
+      border-color: rgb(130, 130, 130);
     }
   }
 `;

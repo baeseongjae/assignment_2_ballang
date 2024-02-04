@@ -22,6 +22,7 @@ function SingInPage() {
 
     if (userId === "udemy" && password === "udemy") {
       signIn(userId);
+      alert("로그인 성공");
       navigate(pathTogo);
     } else {
       alert("아이디나 비밀번호가 잘못되었습니다.");
