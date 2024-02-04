@@ -1,10 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import styled from "styled-components";
+import { useAuth } from "../../contexts/auth.context";
 import Nav from "../Nav";
 
+import { IoBag } from "react-icons/io5";
+import styled from "styled-components";
+
 function Header() {
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const handleClickCartLink = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault(); //기본동작 방지 (Link to로 연결되는거 방지)
+      navigate("/sign-in", { state: { from: "/cart" } });
+    }
+  };
+
   return (
     <StyledHeader>
       <Nav />
@@ -23,7 +36,9 @@ function Header() {
         <InputAndCart>
           <input type="text" />
           <button>검색</button>
-          <Link>장바구니</Link>
+          <CartLink to="/cart" onClick={handleClickCartLink}>
+            <IoBag />
+          </CartLink>
         </InputAndCart>
       </HeaderInnerContents>
       <HeaderInnerCategory>
@@ -113,6 +128,22 @@ const StyledLink = styled(Link)`
 const InputAndCart = styled.div`
   display: flex;
   justify-content: flex-end;
+  column-gap: 5px;
+`;
+
+const CartLink = styled(Link)`
+  font-size: 2rem;
+  margin-left: 10px;
+  text-align: center;
+  width: 45px;
+  color: black;
+  border-radius: 50%;
+  border: 1px solid transparent;
+
+  &:hover {
+    color: rgb(173, 173, 173);
+    border: 1px solid rgb(173, 173, 173);
+  }
 `;
 
 // ----------- 카테고리 ------------
@@ -137,3 +168,17 @@ const CategoryItemLink = styled(Link)`
   font-weight: 600;
   color: black;
 `;
+
+{
+  /* <button>
+                  <IoBag />
+                </button>
+
+                
+  button:last-child {
+    font-size: 1.8rem;
+    width: 50px;
+    border-radius: 50%;
+    border: 1px solid rgb(173, 173, 173);
+  } */
+}

@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import DefaultLayout from "./layouts/DefaultLayout/DefaultLayout";
 import ProductsDetailPage from "./pages/ProductsDetailPage";
 import SignInPage from "./pages/SignInPage";
+import CartPage from "./pages/CartPage";
 import { AuthProvider } from "./contexts/auth.context";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
               element={<ProductsDetailPage />}
             />
             <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/cart" element={<CartPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

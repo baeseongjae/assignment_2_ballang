@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Page from "../../components/Page";
 import { useAuth } from "../../contexts/auth.context";
@@ -7,10 +7,12 @@ import { useAuth } from "../../contexts/auth.context";
 import styled from "styled-components";
 
 function SingInPage() {
-  const navigate = useNavigate();
   const { signIn, isLoggedIn } = useAuth();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathTogo = location.state?.from || "/";
 
   const handleClickSignIn = () => {
     if (!userId || !password) {
@@ -20,7 +22,7 @@ function SingInPage() {
 
     if (userId === "udemy" && password === "udemy") {
       signIn(userId);
-      navigate("/");
+      navigate(pathTogo);
     } else {
       alert("아이디나 비밀번호가 잘못되었습니다.");
       return;
