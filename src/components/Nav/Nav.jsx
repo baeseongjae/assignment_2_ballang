@@ -43,7 +43,7 @@ function Nav() {
           {menuItemUserId}
           <li>{menuItemLinkLog}</li>
           <li>
-            <MenuItemLink>마이페이지</MenuItemLink>
+            <MenuItemLink to="my-page">마이페이지</MenuItemLink>
           </li>
           <li>
             <MenuItemLink>주문배송</MenuItemLink>

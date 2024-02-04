@@ -5,6 +5,7 @@ import DefaultLayout from "./layouts/DefaultLayout/DefaultLayout";
 import ProductsDetailPage from "./pages/ProductsDetailPage";
 import SignInPage from "./pages/SignInPage";
 import CartPage from "./pages/CartPage";
+import MyPage from "./pages/MyPage";
 import { AuthProvider } from "./contexts/auth.context";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             />
             <Route path="/sign-in" element={<SignInPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/my-page" element={<MyPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
