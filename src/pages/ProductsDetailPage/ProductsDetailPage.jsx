@@ -50,13 +50,13 @@ function ProductsDetailPage() {
                 <DescriptionList>
                   <dt>상품금액</dt>
                   <OriginalPrice>
-                    <Price amount={product.standard_price} />원
+                    <Price amount={product.standard_price} />
                   </OriginalPrice>
                 </DescriptionList>
                 <DescriptionList>
                   <dt>판매가</dt>
                   <dd>
-                    <Price amount={product.price} />원
+                    <Price amount={product.price} />
                   </dd>
                 </DescriptionList>
                 <DescriptionList>
@@ -66,7 +66,7 @@ function ProductsDetailPage() {
                 <DescriptionList>
                   <dt>적립금</dt>
                   <dd>
-                    <Price amount={`${product.price / 10}`} />원
+                    <Price amount={`${product.price / 10}`} />
                   </dd>
                 </DescriptionList>
                 <DescriptionList>

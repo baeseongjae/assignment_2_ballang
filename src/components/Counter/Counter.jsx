@@ -5,10 +5,16 @@ import styled from "styled-components";
 function Counter() {
   const [count, setCount] = useState(0);
 
+  const handleClickMinusButton = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  };
+
   return (
     <CounterWrapper>
       <A11yHidden>카운터</A11yHidden>
-      <MinusButton onClick={() => setCount(count - 1)}>-</MinusButton>
+      <MinusButton onClick={handleClickMinusButton}>-</MinusButton>
       <span>{count}</span>
       <PlusButton onClick={() => setCount(count + 1)}>+</PlusButton>
     </CounterWrapper>
