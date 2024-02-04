@@ -6,7 +6,7 @@ import { useAuth } from "../../contexts/auth.context";
 import styled from "styled-components";
 
 function Nav() {
-  const { isLoggedIn, logOut } = useAuth();
+  const { isLoggedIn, logOut, userId } = useAuth();
   const navigate = useNavigate();
 
   const handleClickLogout = () => {
@@ -15,6 +15,11 @@ function Nav() {
   };
 
   let menuItemLinkLog = <MenuItemLink to={`/sign-in`}>로그인</MenuItemLink>;
+  let menuItemUserId = (
+    <li>
+      <span>{userId}님 </span>
+    </li>
+  );
 
   if (isLoggedIn) {
     menuItemLinkLog = (
@@ -24,12 +29,17 @@ function Nav() {
     );
   }
 
+  if (!userId) {
+    menuItemUserId = null;
+  }
+
   return (
     <StyledNav>
       <NavInner>
         <span>럭셔리하도다 그이름, 발랑</span>
         <span>Online luxury boutique</span>
         <MenuList>
+          {menuItemUserId}
           <li>{menuItemLinkLog}</li>
           <li>
             <MenuItemLink>마이페이지</MenuItemLink>
