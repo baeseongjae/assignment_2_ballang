@@ -72,15 +72,24 @@ export default function cartReducer(state = initialState, action) {
         return prev;
       });
 
+      // 금액 계산로직
+      const totalPrice = newItems.reduce(
+        (total, item) => total + item.consumer * item.count,
+        0
+      );
+      const discountAmount = newItems.reduce(
+        (total, item) =>
+          total + ((item.consumer * item.sale_percent) / 100) * item.count,
+        0
+      );
+      const amountToPay = totalPrice - discountAmount;
+
       const newState = {
         ...state,
         items: newItems,
-        totalPrice: state.totalPrice + action.payload.item.consumer,
-        discountAmount:
-          state.discountAmount +
-          (action.payload.item.consumer * action.payload.item.sale_percent) /
-            100,
-        amountToPay: state.amountToPay + action.payload.item.price,
+        totalPrice,
+        discountAmount,
+        amountToPay,
       };
 
       return newState;

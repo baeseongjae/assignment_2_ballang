@@ -19,11 +19,14 @@ function Counter({ product }) {
   const handleClickPlusButton = () => {
     const action = updateItemCountActionCreator(product, productCount + 1);
     dispatch(action);
+    setCount(productCount + 1);
   };
 
   const handleClickMinusButton = () => {
     if (count > 0) {
-      setCount(count - 1);
+      const action = updateItemCountActionCreator(product, productCount - 1);
+      dispatch(action);
+      setCount(productCount - 1);
     }
   };
 
