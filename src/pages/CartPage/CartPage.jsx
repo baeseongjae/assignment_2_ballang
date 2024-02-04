@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 
 import Page from "../../components/Page";
 import Counter from "../../components/Counter";
+import Price from "../../components/Price";
 
 import styled from "styled-components";
-import Price from "../../components/Price";
 
 function CartPage() {
   const productsInCart = useSelector((state) => state.cart.items);
@@ -28,8 +28,8 @@ function CartPage() {
                   <img src={item.img_i} alt={item.goodsnm} />
                   <p>{item.goodsnm}</p>
                 </Link>
-                <Counter />
-                <Price amount={item.price} />
+                <Counter product={item} />
+                <Price amount={item.price * item.count} />
               </li>
             ))}
           </ul>

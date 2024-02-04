@@ -1,9 +1,25 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
+import { updateItemCountActionCreator } from "../../store/actions/cart.actions";
 
-function Counter() {
+function Counter({ product }) {
   const [count, setCount] = useState(0);
+  const productsInCart = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
+
+  // 프로덕트id와 일치하는 카트리스트아이템 찾기
+  const targetIndex = productsInCart.findIndex(
+    (item) => item.id === product.id
+  );
+  const productCount =
+    targetIndex !== -1 ? productsInCart[targetIndex].count : 0;
+
+  const handleClickPlusButton = () => {
+    const action = updateItemCountActionCreator(product, productCount + 1);
+    dispatch(action);
+  };
 
   const handleClickMinusButton = () => {
     if (count > 0) {
@@ -15,13 +31,15 @@ function Counter() {
     <CounterWrapper>
       <A11yHidden>카운터</A11yHidden>
       <MinusButton onClick={handleClickMinusButton}>-</MinusButton>
-      <div>{count}</div>
-      <PlusButton onClick={() => setCount(count + 1)}>+</PlusButton>
+      <div>{productCount}</div>
+      <PlusButton onClick={handleClickPlusButton}>+</PlusButton>
     </CounterWrapper>
   );
 }
 
 export default Counter;
+
+// -------------- 스타일링 -----------------
 
 const A11yHidden = styled.h2`
   overflow: hidden;

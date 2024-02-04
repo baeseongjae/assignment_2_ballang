@@ -1,4 +1,8 @@
-import { ADD_ITEM, REMOVE_ITEM } from "../actions/cart.actions";
+import {
+  ADD_ITEM,
+  REMOVE_ITEM,
+  UPDATE_ITEM_COUNT,
+} from "../actions/cart.actions";
 
 const initialState = {
   items: [],
@@ -10,8 +14,30 @@ const initialState = {
 export default function cartReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ITEM: {
-      const ItemToAddCart = action.payload;
-      const newItems = [...state.items, ItemToAddCart];
+      // 카운트 속성 초기화
+      const itemToAddCart = {
+        ...action.payload,
+        count: 1,
+      };
+
+      // 기존 상품데이터 복사본
+      const newItems = [...state.items];
+
+      const existingItemIndex = state.items.findIndex(
+        (item) => item.id === itemToAddCart.id
+      );
+
+      // 기존 상품과 일치한다면
+      if (existingItemIndex !== -1) {
+        const existingItem = state.items[existingItemIndex];
+        const updatedItem = {
+          ...existingItem,
+          count: existingItem.count + 1,
+        };
+        newItems[existingItemIndex] = updatedItem;
+      } else {
+        newItems.push({ ...itemToAddCart, count: 1 });
+      }
 
       const newState = {
         ...state,
@@ -22,16 +48,41 @@ export default function cartReducer(state = initialState, action) {
           (action.payload.consumer * action.payload.sale_percent) / 100,
         amountToPay: state.amountToPay + action.payload.price,
       };
+
       return newState;
     }
+
     case REMOVE_ITEM: {
-      const ItemIdToRemove = action.payload;
-      const newItems = state.items.filter((item) => item !== ItemIdToRemove);
+      const itemIdToRemove = action.payload;
+      const newItems = state.items.filter((item) => item !== itemIdToRemove);
 
       const newState = {
         ...state,
         items: newItems,
       };
+      return newState;
+    }
+
+    case UPDATE_ITEM_COUNT: {
+      const { item, count } = action.payload;
+      const newItems = state.items.map((prev) => {
+        if (prev.id === item.id) {
+          return { ...prev, count: count };
+        }
+        return prev;
+      });
+
+      const newState = {
+        ...state,
+        items: newItems,
+        totalPrice: state.totalPrice + action.payload.item.consumer,
+        discountAmount:
+          state.discountAmount +
+          (action.payload.item.consumer * action.payload.item.sale_percent) /
+            100,
+        amountToPay: state.amountToPay + action.payload.item.price,
+      };
+
       return newState;
     }
     default:
