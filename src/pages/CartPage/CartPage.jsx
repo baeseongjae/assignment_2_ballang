@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItemActionCreator } from "../../store/actions/cart.actions";
 
 import Page from "../../components/Page";
 import Counter from "../../components/Counter";
@@ -13,6 +14,11 @@ function CartPage() {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const discountAmount = useSelector((state) => state.cart.discountAmount);
   const amountToPay = useSelector((state) => state.cart.amountToPay);
+  const dispatch = useDispatch();
+
+  const handleRemoveItem = (id) => {
+    dispatch(removeItemActionCreator(id));
+  };
 
   return (
     <Page>
@@ -30,6 +36,7 @@ function CartPage() {
                 </Link>
                 <Counter product={item} isDirectUpdate={true} />
                 <Price amount={item.price * item.count} />
+                <button onClick={() => handleRemoveItem(item.id)}>삭제</button>
               </li>
             ))}
           </ul>
@@ -105,6 +112,17 @@ const CartItemsSection = styled.section`
     display: flex;
     align-items: center;
     column-gap: 3.5rem;
+
+    button {
+      border-radius: 10px;
+      border: 1px solid rgb(237, 237, 237);
+
+      &:hover {
+        cursor: pointer;
+        color: rgb(130, 130, 130);
+        border-color: rgb(151, 151, 151);
+      }
+    }
   }
   a {
     flex: 1;

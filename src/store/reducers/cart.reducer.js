@@ -54,7 +54,7 @@ export default function cartReducer(state = initialState, action) {
 
     case REMOVE_ITEM: {
       const itemIdToRemove = action.payload;
-      const newItems = state.items.filter((item) => item !== itemIdToRemove);
+      const newItems = state.items.filter((item) => item.id !== itemIdToRemove);
 
       const newState = {
         ...state,

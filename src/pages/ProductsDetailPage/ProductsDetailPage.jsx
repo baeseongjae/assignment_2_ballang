@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useAuth } from "../../contexts/auth.context";
+import {
+  addItemActionCreator,
+  updateItemCountActionCreator,
+} from "../../store/actions/cart.actions";
 
 import api from "../../apis/api";
 import Page from "../../components/Page";
@@ -10,11 +15,6 @@ import Counter from "../../components/Counter";
 
 import { IoBag } from "react-icons/io5";
 import styled from "styled-components";
-import { useAuth } from "../../contexts/auth.context";
-import {
-  addItemActionCreator,
-  updateItemCountActionCreator,
-} from "../../store/actions/cart.actions";
 
 function ProductsDetailPage() {
   const { productId } = useParams();
