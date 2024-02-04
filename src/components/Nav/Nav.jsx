@@ -1,19 +1,36 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useAuth } from "../../contexts/auth.context";
+
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 function Nav() {
+  const { isLoggedIn, logOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleClickLogout = () => {
+    logOut();
+    navigate("/");
+  };
+
+  let menuItemLinkLog = <MenuItemLink to={`/sign-in`}>로그인</MenuItemLink>;
+
+  if (isLoggedIn) {
+    menuItemLinkLog = (
+      <MenuItemLogOutButton onClick={handleClickLogout}>
+        로그아웃
+      </MenuItemLogOutButton>
+    );
+  }
+
   return (
     <StyledNav>
       <NavInner>
         <span>럭셔리하도다 그이름, 발랑</span>
-
         <span>Online luxury boutique</span>
-
         <MenuList>
-          <li>
-            <MenuItemLink>로그인</MenuItemLink>
-          </li>
+          <li>{menuItemLinkLog}</li>
           <li>
             <MenuItemLink>마이페이지</MenuItemLink>
           </li>
@@ -86,4 +103,18 @@ const MenuItemLink = styled(Link)`
 
 const MenuItemLastLink = styled(MenuItemLink)`
   border: none;
+`;
+
+const MenuItemLogOutButton = styled.button`
+  text-decoration: none;
+  color: white;
+  padding: 0 10px;
+  display: inline-block;
+  background-color: transparent;
+  border: none;
+  border-right: 1px solid white;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
