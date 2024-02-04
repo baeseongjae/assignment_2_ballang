@@ -15,7 +15,7 @@ function Counter() {
     <CounterWrapper>
       <A11yHidden>카운터</A11yHidden>
       <MinusButton onClick={handleClickMinusButton}>-</MinusButton>
-      <span>{count}</span>
+      <div>{count}</div>
       <PlusButton onClick={() => setCount(count + 1)}>+</PlusButton>
     </CounterWrapper>
   );
@@ -37,9 +37,10 @@ const A11yHidden = styled.h2`
 const CounterWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 
-  span {
-    font-size: 16px;
+  div {
+    font-size: 17px;
   }
 `;
 

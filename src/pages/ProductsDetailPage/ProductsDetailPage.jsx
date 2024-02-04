@@ -50,7 +50,7 @@ function ProductsDetailPage() {
                 <DescriptionList>
                   <dt>상품금액</dt>
                   <OriginalPrice>
-                    <Price amount={product.standard_price} />
+                    <Price amount={product.consumer} />
                   </OriginalPrice>
                 </DescriptionList>
                 <DescriptionList>

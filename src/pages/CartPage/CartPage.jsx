@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Page from "../../components/Page";
 import Counter from "../../components/Counter";
@@ -8,6 +9,11 @@ import styled from "styled-components";
 import Price from "../../components/Price";
 
 function CartPage() {
+  const productsInCart = useSelector((state) => state.cart.items);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const discountAmount = useSelector((state) => state.cart.discountAmount);
+  const amountToPay = useSelector((state) => state.cart.amountToPay);
+
   return (
     <Page>
       <Title>쇼핑백</Title>
@@ -16,23 +22,16 @@ function CartPage() {
           <div>전체선택</div>
           <Line />
           <ul>
-            <li>
-              <Link>
-                <img src="" alt="" />
-                <p>아디다스 알파바운스</p>
-              </Link>
-
-              <Counter />
-              <Price amount="44800" />
-            </li>
-            <li>
-              <Link>
-                <img src="" alt="" />
-                <p>뉴발란스 반팔</p>
-              </Link>
-              <Counter />
-              <Price amount="30000" />
-            </li>
+            {productsInCart.map((item) => (
+              <li>
+                <Link>
+                  <img src={item.img_i} alt={item.goodsnm} />
+                  <p>{item.goodsnm}</p>
+                </Link>
+                <Counter />
+                <Price amount={item.price} />
+              </li>
+            ))}
           </ul>
         </CartItemsSection>
         <OrderSection>
@@ -41,11 +40,15 @@ function CartPage() {
             <li>
               <dl>
                 <dt>상품금액</dt>
-                <dd>74800원</dd>
+                <dd>
+                  <Price amount={totalPrice} />
+                </dd>
               </dl>
               <dl>
                 <dt>할인금액</dt>
-                <dd>0원</dd>
+                <dd>
+                  - <Price amount={discountAmount} />
+                </dd>
               </dl>
               <dl>
                 <dt>배송비</dt>
@@ -54,7 +57,9 @@ function CartPage() {
               <hr />
               <dl>
                 <dt>결제예정금액</dt>
-                <dd>74800원</dd>
+                <dd>
+                  <Price amount={amountToPay} />
+                </dd>
               </dl>
             </li>
           </ul>
@@ -103,6 +108,17 @@ const CartItemsSection = styled.section`
   }
   a {
     flex: 1;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    color: black;
+    img {
+      width: 100px;
+      height: 120px;
+    }
+  }
+  span {
+    width: 90px;
   }
 `;
 

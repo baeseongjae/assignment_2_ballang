@@ -3,6 +3,8 @@ import { ADD_ITEM, REMOVE_ITEM } from "../actions/cart.actions";
 const initialState = {
   items: [],
   totalPrice: 0,
+  discountAmount: 0,
+  amountToPay: 0,
 };
 
 export default function cartReducer(state = initialState, action) {
@@ -14,7 +16,11 @@ export default function cartReducer(state = initialState, action) {
       const newState = {
         ...state,
         items: newItems,
-        totalPrice: state.totalPrice + action.payload.price,
+        totalPrice: state.totalPrice + action.payload.consumer,
+        discountAmount:
+          state.discountAmount +
+          (action.payload.consumer * action.payload.sale_percent) / 100,
+        amountToPay: state.amountToPay + action.payload.price,
       };
       return newState;
     }
